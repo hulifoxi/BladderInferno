@@ -19,6 +19,7 @@
       background: rgba(0, 0, 0, 0.3);
       border-radius: 15px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      position: relative;
     }
     h1, h2 {
       text-align: center;
@@ -68,29 +69,36 @@
     }
     .wheel-container {
       position: relative;
-      width: 380px;
-      height: 380px;
-      margin: 2rem auto;
+      width: 500px;
+      height: 500px;
+      margin: 4rem auto 2rem auto;
       display: none;
-      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
     }
     #wheelCanvas {
       width: 100%;
       height: 100%;
       transform-origin: center;
+      border-radius: 50%;
+      background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
     }
     .pointer {
       position: absolute;
-      top: -15px; /* 调整位置，使其更贴近转盘顶部 */
+      top: -10px;
       left: 50%;
       transform: translateX(-50%);
       width: 0;
       height: 0;
-      border-left: 12px solid transparent; /* 变细 */
-      border-right: 12px solid transparent;
-      border-top: 24px solid #ff3333; /* 更亮的红色 */
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 35px solid #1e90ff;
       z-index: 10;
-      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.5)); /* 调整阴影 */
+      filter: drop-shadow(0px 3px 5px rgba(0, 0, 0, 0.5));
+      transition: all 0.3s ease;
+      background: none;
+      border-bottom: none;
+      border-radius: 0;
     }
     .result-box {
       background: rgba(0, 0, 0, 0.5);
@@ -180,13 +188,12 @@
       transform: scale(1.2);
       color: #ff3333;
     }
-    /* 彩带样式 */
     .confetti {
       position: absolute;
       width: 10px;
       height: 20px;
-      background-color: red; /* 默认颜色，会被JS覆盖 */
-      top: -20px; /* 从顶部开始 */
+      background-color: red;
+      top: -20px;
       opacity: 0;
       animation: fall 5s linear infinite;
     }
@@ -201,7 +208,6 @@
         opacity: 0;
       }
     }
-    /* 失败动画相关样式 */
     .failure-animation {
         position: fixed;
         top: 0;
@@ -235,7 +241,6 @@
         content: "🤢";
     }
     
-    /* 免责声明模态框样式 */
     .disclaimer-modal {
       position: fixed;
       top: 0;
@@ -310,10 +315,113 @@
       50% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.6); }
       100% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.3); }
     }
+
+    .help-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: linear-gradient(145deg, #ffd700, #ffa500);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      font-size: 16px;
+      font-weight: bold;
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .help-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .process-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 9999;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .process-content {
+      background: #1a1a1a;
+      padding: 2rem;
+      border-radius: 15px;
+      border: 2px solid #ffd700;
+      max-width: 800px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+    }
+    
+    .process-title {
+      color: #ffd700;
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+    
+    .process-section {
+      margin: 20px 0;
+      padding: 15px;
+      background: rgba(255, 215, 0, 0.1);
+      border-radius: 8px;
+      border-left: 3px solid #ffd700;
+    }
+    
+    .process-section h3 {
+      color: #ffd700;
+      margin-bottom: 10px;
+    }
+    
+    .process-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: #ffd700;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 5px;
+      transition: all 0.3s ease;
+    }
+    
+    .process-close:hover {
+      transform: scale(1.2);
+      color: #ffa500;
+    }
+
+    #resetButton {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: linear-gradient(145deg, #6c757d, #5a6268);
+      color: white;
+      padding: 8px 16px;
+      font-size: 14px;
+      z-index: 10;
+    }
+
+    #resetButton:hover {
+      background: linear-gradient(145deg, #5a6268, #4e555b);
+    }
   </style>
 </head>
 <body>
-  <!-- 在container div之前添加免责声明模态框 -->
   <div class="disclaimer-modal" id="disclaimerModal">
     <div class="disclaimer-content">
       <div class="disclaimer-title">⚠️ 重要安全警告</div>
@@ -329,6 +437,7 @@
   </div>
   
   <div class="container">
+    <button id="resetButton" onclick="resetAll()" style="display: none;">🔄 重新开始</button>
     <h1>膀胱炼狱 · 极限尿压</h1>
     <div class="timer">⏳ 倒计时：<span id="countdown">90:00</span></div>
     <div class="phase">阶段：<span id="phase">准备期</span> | 轮数：<span id="roundCounter">0 / 5</span></div>
@@ -337,13 +446,12 @@
 
     <div class="wheel-container">
       <div class="pointer"></div>
-      <canvas id="wheelCanvas" width="380" height="380"></canvas>
+      <canvas id="wheelCanvas"></canvas>
     </div>
 
     <div class="center-btn">
       <button id="startButton" onclick="startGame()">▶️ 开始挑战</button>
       <button id="skipButton" onclick="skipTimer()" style="display: none;">⏩ 跳过等待</button>
-      <button id="resetButton" onclick="resetAll()" style="display: none;">🔄 重新开始</button>
       <div class="action-buttons">
           <button id="peeButton" onclick="handlePeeAction()" disabled>💧 主动排尿5秒 (仅一次, 后果严重)</button>
           <button id="failButton" onclick="handleFailure()" disabled>🏳️ 宣告失败 (失禁)</button>
@@ -366,6 +474,58 @@
     <div class="punishment-item">➡️ 惩罚5: 戴上控尿夹（如有）或使用压环，持续30分钟。这是你失败的烙印。</div>
   </div>
 
+  <button class="help-button" onclick="showGameProcess()">📖 阅读规则</button>
+
+  <div class="process-modal" id="processModal">
+    <div class="process-content">
+      <button class="process-close" onclick="closeGameProcess()">×</button>
+      <div class="process-title">🎮 游戏流程说明</div>
+      
+      <div class="process-section">
+        <h3>1️⃣ 准备阶段（90分钟）</h3>
+        <p>• 排空膀胱</p>
+        <p>• 准备足够的水（建议6L）</p>
+        <p>• 准备必要道具（控尿夹/尿道压环等）</p>
+        <p>• 确保环境安全私密</p>
+      </div>
+      
+      <div class="process-section">
+        <h3>2️⃣ 挑战阶段</h3>
+        <p>• 每轮强制喝水250ml</p>
+        <p>• 随机转动轮盘获得奖励或惩罚</p>
+        <p>• 每轮间隔15分钟</p>
+        <p>• 总共5轮（可能因奖惩增减）</p>
+      </div>
+      
+      <div class="process-section">
+        <h3>3️⃣ 奖励机制</h3>
+        <p>• 30%概率触发奖励轮盘</p>
+        <p>• 包含排尿机会、休息时间等</p>
+        <p>• 某些奖励可能附带额外条件</p>
+      </div>
+      
+      <div class="process-section">
+        <h3>4️⃣ 惩罚机制</h3>
+        <p>• 70%概率触发惩罚轮盘</p>
+        <p>• 同一惩罚重复触发会升级（最高3级）</p>
+        <p>• 某些惩罚包含额外喝水要求</p>
+      </div>
+      
+      <div class="process-section">
+        <h3>5️⃣ 特殊机制</h3>
+        <p>• 可使用一次性主动排尿权（代价：轮数+2，额外喝水250ml）</p>
+        <p>• 超过2300ml总水量会收到警告</p>
+        <p>• 失败后会触发专属惩罚流程</p>
+      </div>
+      
+      <div class="process-section">
+        <h3>6️⃣ 胜利条件</h3>
+        <p>• 完成所有轮次且未失禁</p>
+        <p>• 全程遵守规则执行奖惩</p>
+      </div>
+    </div>
+  </div>
+
 <script>
   let phase = "prepare";
   let currentRound = 0;
@@ -373,6 +533,8 @@
   let waterTotal = 0;
   let intervalTime = 90 * 60;
   let roundTimer;
+  let startTime = null;
+  let targetEndTime = null;
   const logEl = document.getElementById("logBox");
   const countdownEl = document.getElementById("countdown");
   const phaseEl = document.getElementById("phase");
@@ -382,6 +544,7 @@
   const resultEl = document.getElementById("result");
   const canvas = document.getElementById("wheelCanvas");
   const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio || 1;
 
   let punishCounter = {};
   let usedRewards = new Set();
@@ -389,19 +552,35 @@
   let isSpinning = false;
   let currentAngle = 0;
   let peeActionUsed = false;
+  let canSkipNextDrink = false;
+  let canReplaceNextPunishment = false;
+  let hasAmnesty = false;
+  let skipNextReward = false;
+  let pee3secUsed = false;
 
-  const rewards = ["排尿3秒", "排尿5秒+加轮", "休息5分钟", "暂时解除控尿夹", "阶段数-1", "跳过一轮喝水", "冥想3分钟", "替换惩罚", "蒙眼暂停5分钟", "戴项圈由对方赦免"];
+  const rewards = [
+    "排尿3秒 (仅1次)",
+    "排尿5秒 (轮数+2, 喝水+300)",
+    "躺下休息5分钟",
+    "摘除控尿夹5分钟",
+    "游戏轮数-1",
+    "跳过下次喝水",
+    "闭眼冥想3分钟",
+    "更换下次惩罚",
+    "蒙眼暂停5分钟",
+    "白神赦免惩罚 (仅1次)"
+  ];
   const punishments = [
-    "高抬腿100次",
-    "倒立撑墙90秒",
-    "控尿夹MAX+喝水200ml",
-    "裸跪喊\"我不能尿！\"2分钟",
-    "冰块刺激5分钟",
-    "墙角开腿喊羞耻语",
-    "镜前自扇耳光左右各5次",
-    "抱胀腹蹬腿1分钟",
-    "冷水泼裤并剥夺奖励",
-    "绑裆+跳跃20次"
+    "高抬腿",
+    "裸腹撑墙",
+    "控尿夹Max+喝水200",
+    "裸跪哼叫",
+    "狗爬姿势+刺激",
+    "站墙角裸露+录音",
+    "镜前羞辱+自扇",
+    "抱膀胱甩腿+提拉",
+    "冷水泼裤+剥夺奖励",
+    "绑绳下体+跳跃"
   ];
   let currentSectors = [];
 
@@ -439,20 +618,23 @@
   }
 
   function startTimer() {
-    // 强制清除任何可能存在的旧计时器
     if (roundTimer) {
       clearInterval(roundTimer);
       roundTimer = null;
     }
     
-    updateCountdown(); // 立即更新一次显示
+    startTime = new Date().getTime();
+    targetEndTime = startTime + (intervalTime * 1000);
+    
+    updateCountdown();
     
     roundTimer = setInterval(() => {
-      intervalTime--;
-      updateCountdown();
-      if (intervalTime <= 0) {
-        clearInterval(roundTimer); // 清除当前计时器
-        roundTimer = null; // 标记为已清除
+      const now = new Date().getTime();
+      const remainingTime = Math.max(0, Math.ceil((targetEndTime - now) / 1000));
+      
+      if (remainingTime <= 0) {
+        clearInterval(roundTimer);
+        roundTimer = null;
         
         if (phase === "prepare") {
           log("✅ 准备时间结束，挑战正式开始！");
@@ -462,13 +644,13 @@
           actionButtonsDiv.style.display = 'block';
           peeButton.disabled = false;
           failButton.disabled = false;
-          nextRound(); // 交给 nextRound 处理后续，包括启动下一轮计时器
-        } else { // 在挑战阶段计时器结束
-          nextRound(); // 交给 nextRound 处理后续，包括启动下一轮计时器
+          nextRound();
+        } else {
+          nextRound();
         }
-        // 移除这里的 intervalTime 设置和 startTimer 调用
-        // intervalTime = 15 * 60;
-        // startTimer();
+      } else {
+        intervalTime = remainingTime;
+        updateCountdown();
       }
     }, 1000);
   }
@@ -481,6 +663,7 @@
         clearInterval(roundTimer);
         roundTimer = null;
         intervalTime = 0;
+        targetEndTime = new Date().getTime();
         updateCountdown();
 
         log("✅ 准备时间结束，挑战正式开始！");
@@ -490,21 +673,15 @@
         actionButtonsDiv.style.display = 'block';
         peeButton.disabled = false;
         failButton.disabled = false;
-        nextRound(); // 调用 nextRound
-        // 移除这里的 intervalTime 设置和 startTimer 调用
-        // intervalTime = 15 * 60;
-        // startTimer();
-
+        nextRound();
     } else if (phase === 'challenge') {
         log("⏩ 跳过当前15分钟等待...");
         clearInterval(roundTimer);
         roundTimer = null;
         intervalTime = 0;
+        targetEndTime = new Date().getTime();
         updateCountdown();
-        nextRound(); // 调用 nextRound
-        // 移除这里的 intervalTime 设置和 startTimer 调用
-        // intervalTime = 15 * 60;
-        // startTimer();
+        nextRound();
     }
   }
 
@@ -514,44 +691,79 @@
     currentRound++;
     roundCounterEl.textContent = `${currentRound} / ${totalRounds}`;
 
-    // 隐藏跳过按钮，准备旋转
     skipButton.style.display = 'none';
 
     if (currentRound > totalRounds) {
-      resultEl.innerText = "🎉 所有轮次完成！挑战结束。";
-      phaseEl.textContent = "完成 ✅";
-      roundCounterEl.textContent = "已完成";
-      log("🎉 你撑过了所有轮转挑战！");
-      clearInterval(roundTimer);
-
-      document.querySelector('.wheel-container').style.display = 'none';
-      skipButton.style.display = 'none';
-
-      removeConfetti();
-      showConfetti();
-
+      handleVictory();
       return;
     }
 
-    log(`🥤 第${currentRound}轮：喝水 ${waterPerRound}ml`);
-    waterTotal += waterPerRound;
-    if (waterTotal > maxWater) {
-      log("⚠️ 警告！水量已超出建议容量！");
+    if (canSkipNextDrink) {
+      log(`🚫 第${currentRound}轮：根据奖励效果，跳过本轮喝水！`);
+      canSkipNextDrink = false;
+      resultEl.innerText = "跳过喝水，准备转动轮盘…";
+    } else {
+      log(`🥤 第${currentRound}轮：喝水 ${waterPerRound}ml`);
+      waterTotal += waterPerRound;
+      if (waterTotal > maxWater) {
+        log("⚠️ 警告！水量已超出建议容量！");
+      }
+      resultEl.innerText = `喝水 ${waterPerRound}ml，然后转动轮盘…`;
     }
-
-    resultEl.innerText = `喝水 ${waterPerRound}ml，然后转动轮盘…`;
     
     document.querySelector('.wheel-container').style.display = 'block';
     
-    const randomValue = Math.random();
-    if (randomValue < 0.3) {
+    if (canReplaceNextPunishment) {
+      log("⏭️ 根据奖励效果，本轮自动更换为奖励轮盘！");
+      canReplaceNextPunishment = false;
       currentWheelType = "reward";
-      currentSectors = [...rewards];
+      currentSectors = rewards.filter(r => !usedRewards.has(r));
       log("🎲 抽取类型：奖励 ✨");
+      if (currentSectors.length === 0) {
+          log("🚫 所有奖励已用完！无法更换。");
+          currentWheelType = "punishment";
+          currentSectors = [...punishments];
+          log("🎲 抽取类型：惩罚 😈");
+      }
+    } else if (hasAmnesty) {
+        const randomValue = Math.random();
+        if (randomValue < 0.3) {
+          currentWheelType = "reward";
+          currentSectors = rewards.filter(r => !usedRewards.has(r));
+          log("🎲 抽取类型：奖励 ✨");
+        } else {
+          currentWheelType = "punishment";
+          currentSectors = [...punishments];
+          log("🎲 抽取类型：惩罚 😈 (持有赦免权)");
+        }
     } else {
-      currentWheelType = "punishment";
-      currentSectors = [...punishments];
-      log("🎲 抽取类型：惩罚 😈");
+        const randomValue = Math.random();
+        if (randomValue < 0.3 || skipNextReward) {
+          if (skipNextReward) {
+              log("🚫 根据惩罚效果，本轮强制跳过奖励轮盘！");
+              skipNextReward = false;
+              currentWheelType = "punishment";
+              currentSectors = [...punishments];
+              log("🎲 抽取类型：惩罚 😈");
+          } else {
+              currentWheelType = "reward";
+              currentSectors = rewards.filter(r => !usedRewards.has(r));
+              log("🎲 抽取类型：奖励 ✨");
+          }
+        } else {
+          currentWheelType = "punishment";
+          currentSectors = [...punishments];
+          log("🎲 抽取类型：惩罚 😈");
+        }
+    }
+    
+    if (currentWheelType === "reward" && currentSectors.length === 0) {
+      log("🚫 所有奖励已用完！本轮无奖励。");
+      resultEl.innerText = "所有奖励已用完！";
+      skipButton.style.display = 'inline-block';
+      intervalTime = 15 * 60;
+      startTimer();
+      return;
     }
     
     drawWheel();
@@ -563,85 +775,172 @@
     }, 1000);
   }
 
-  function drawWheel() {
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    const radius = Math.min(centerX, centerY) - 10;
-    
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    const anglePerSector = (Math.PI * 2) / currentSectors.length;
-    
-    // 定义现代颜色主题
-    const rewardColors = ["#FFD700", "#FFA500", "#FFC300", "#FFBF00"];
-    const punishmentColors = ["#DC143C", "#B22222", "#FF0000", "#8B0000"];
-    const colors = currentWheelType === "reward" ? rewardColors : punishmentColors;
-    
-    for (let i = 0; i < currentSectors.length; i++) {
-      const startAngle = i * anglePerSector;
-      const endAngle = (i + 1) * anglePerSector;
-      
-      ctx.beginPath();
-      ctx.moveTo(centerX, centerY);
-      ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-      ctx.closePath();
-      
-      // 使用更现代的颜色填充
-      ctx.fillStyle = colors[i % colors.length];
-      ctx.fill();
-      
-      // 绘制更细的分隔线
-      ctx.save();
-      ctx.beginPath();
-      ctx.moveTo(centerX, centerY);
-      ctx.lineTo(
-        centerX + Math.cos(startAngle) * radius,
-        centerY + Math.sin(startAngle) * radius
-      );
-      ctx.strokeStyle = "rgba(0, 0, 0, 0.2)"; // 半透明黑色分隔线
-      ctx.lineWidth = 1; // 更细的线
-      ctx.stroke();
-      ctx.restore();
-      
-      // 优化文字渲染
-      const textRadius = radius * 0.7; // 稍微向外调整文字位置
-      const textAngle = startAngle + anglePerSector / 2;
-      const textX = centerX + Math.cos(textAngle) * textRadius;
-      const textY = centerY + Math.sin(textAngle) * textRadius;
-      
-      ctx.save();
-      ctx.translate(textX, textY);
-      ctx.rotate(textAngle + Math.PI / 2); // 调整旋转角度使文字朝外
-      
-      ctx.fillStyle = "#000"; // 使用黑色文字提高对比度
-      ctx.font = "bold 12px 'Segoe UI', Arial"; // 优化字体
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      
-      let text = currentSectors[i];
-      // 可以在这里添加更复杂的文字换行逻辑，暂时保持简单
-      ctx.fillText(text, 0, 0);
-      ctx.restore();
+  function drawWheel(rotationAngle = 0) {
+    const container = document.querySelector('.wheel-container');
+    const size = container.clientWidth;
+
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
+
+    canvas.style.width = `${size}px`;
+    canvas.style.height = `${size}px`;
+
+    ctx.scale(dpr, dpr);
+
+    const centerX = size / 2;
+    const centerY = size / 2;
+    const radius = Math.min(centerX, centerY) - 20;
+
+    ctx.clearRect(0, 0, size, size);
+
+    ctx.save();
+
+    if (rotationAngle !== 0) {
+        ctx.translate(centerX, centerY);
+        ctx.rotate(rotationAngle);
+        ctx.translate(-centerX, -centerY);
     }
-    
-    // 绘制更精致的中心圆点
-    const centerGradient = ctx.createRadialGradient(centerX, centerY, 5, centerX, centerY, 25);
-    centerGradient.addColorStop(0, '#fff');
-    centerGradient.addColorStop(1, '#ccc');
-    
+
+    const bgGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+    bgGradient.addColorStop(0, 'rgba(42, 42, 42, 0.8)');
+    bgGradient.addColorStop(1, 'rgba(26, 26, 26, 0.8)');
+    ctx.fillStyle = bgGradient;
+    ctx.fillRect(0, 0, size, size);
+
+    const anglePerSector = (Math.PI * 2) / currentSectors.length;
+
+    const rewardColors = [
+        ['#FFD700', '#FFA500'],
+        ['#FFC300', '#FF8C00'],
+        ['#FFBF00', '#FF8C00'],
+        ['#FFD700', '#FF8C00']
+    ];
+    const punishmentColors = [
+        ['#DC143C', '#B22222'],
+        ['#FF0000', '#8B0000'],
+        ['#FF3333', '#CC0000'],
+        ['#FF4500', '#CC0000']
+    ];
+    const colors = currentWheelType === "reward" ? rewardColors : punishmentColors;
+
+    for (let i = 0; i < currentSectors.length; i++) {
+        const startAngle = i * anglePerSector;
+        const endAngle = (i + 1) * anglePerSector;
+
+        const gradient = ctx.createLinearGradient(
+            centerX + Math.cos(startAngle) * radius,
+            centerY + Math.sin(startAngle) * radius,
+            centerX + Math.cos(endAngle) * radius,
+            centerY + Math.sin(endAngle) * radius
+        );
+        gradient.addColorStop(0, colors[i % colors.length][0]);
+        gradient.addColorStop(1, colors[i % colors.length][1]);
+
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+        ctx.closePath();
+
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        ctx.save();
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.restore();
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(
+            centerX + Math.cos(startAngle) * radius,
+            centerY + Math.sin(startAngle) * radius
+        );
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.restore();
+
+        const textRadius = radius * 0.6;
+        const textAngle = startAngle + anglePerSector / 2;
+        const textX = centerX + Math.cos(textAngle) * textRadius;
+        const textY = centerY + Math.sin(textAngle) * textRadius;
+
+        ctx.save();
+        ctx.translate(textX, textY);
+        ctx.rotate(textAngle);
+
+        ctx.fillStyle = "#fff";
+        ctx.font = "bold 16px 'Microsoft YaHei', Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+        ctx.shadowBlur = 4;
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+
+        const text = currentSectors[i];
+        const maxWidth = radius * 0.3;
+        const words = text.split(' ');
+        let line = '';
+        let lines = [];
+
+        for (let word of words) {
+            const testLine = line + word + ' ';
+            const metrics = ctx.measureText(testLine);
+            if (metrics.width > maxWidth && line !== '') {
+                lines.push(line);
+                line = word + ' ';
+            } else {
+                line = testLine;
+            }
+        }
+        lines.push(line);
+
+        const lineHeight = 24;
+        lines.forEach((line, index) => {
+            ctx.fillText(line.trim(), 0, (index - (lines.length - 1) / 2) * lineHeight);
+        });
+
+        ctx.restore();
+    }
+
+    ctx.restore();
+
     ctx.beginPath();
-    ctx.arc(centerX, centerY, 25, 0, Math.PI * 2);
-    ctx.fillStyle = centerGradient;
+    ctx.arc(centerX, centerY, 35, 0, Math.PI * 2);
+    ctx.fillStyle = ctx.createRadialGradient(centerX, centerY, 5, centerX, centerY, 35);
+    ctx.fillStyle.addColorStop(0, '#fff');
+    ctx.fillStyle.addColorStop(0.5, '#ddd');
+    ctx.fillStyle.addColorStop(1, '#bbb');
     ctx.fill();
+
+    ctx.save();
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
     ctx.strokeStyle = "#aaa";
     ctx.lineWidth = 2;
     ctx.stroke();
-    
-    // 绘制更细的外边框
+    ctx.restore();
+
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-    ctx.strokeStyle = "rgba(0, 0, 0, 0.4)"; // 半透明深色边框
-    ctx.lineWidth = 4; // 细边框
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
+    ctx.lineWidth = 4;
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+    ctx.lineWidth = 8;
     ctx.stroke();
   }
 
@@ -649,7 +948,7 @@
     if (isSpinning || isGameOver) return;
     isSpinning = true;
     
-    resultEl.innerText = `旋转 ${currentWheelType === 'main' ? '主' : currentWheelType === 'reward' ? '奖励' : '惩罚'} 轮盘中...`;
+    resultEl.innerText = `旋转 ${currentWheelType === 'reward' ? '奖励' : '惩罚'} 轮盘中...`;
     
     const targetIndex = Math.floor(Math.random() * currentSectors.length);
     const result = currentSectors[targetIndex];
@@ -663,169 +962,224 @@
       finalAngle += Math.PI * 2;
     }
 
-    let finalPunishText = "";
-    let finalPunishLevel = 0;
-    if (currentWheelType === 'punishment') {
-        const base = result;
-        punishCounter[base] = (punishCounter[base] || 0) + 1;
-        finalPunishLevel = Math.min(punishCounter[base], 3);
-
-        switch (finalPunishLevel) {
-            case 1: finalPunishText = `${base} (Lv1)`; break;
-            case 2:
-                if (base.includes("高抬腿")) finalPunishText = "高抬腿200次 (Lv2)";
-                else if (base.includes("倒立")) finalPunishText = "裸腹倒立式撑墙保持120秒 (Lv2)";
-                else if (base.includes("裸跪")) finalPunishText = "裸跪＋哼叫\"我不能尿！\"持续3分钟＋咬牙棒 (Lv2)";
-                else finalPunishText = `${base} (Lv2 - 效果强化)`;
-                break;
-            case 3:
-                 if (base.includes("高抬腿")) finalPunishText = "高抬腿300次 (Lv3)";
-                 else finalPunishText = `${base} (Lv3 - 效果极限强化)`;
-                break;
-        }
-        if (base.includes("控尿夹")) finalPunishText += " + 喝水200ml";
-    }
-
     const startTime = performance.now();
     const duration = 3500;
 
     function animate(currentTime) {
-      const elapsed = currentTime - startTime;
-      let progress = elapsed / duration;
-      if (progress > 1) progress = 1;
+        const elapsed = currentTime - startTime;
+        let progress = elapsed / duration;
+        if (progress > 1) progress = 1;
 
-      const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
-      const easedProgress = easeOutExpo(progress);
+        const easeOutExpo = (t) => (t === 1 ? 1 : 1 - Math.pow(2, -10 * t));
+        const easedProgress = easeOutExpo(progress);
 
-      const startAngle = currentAngle;
-      const currentSpinAngle = startAngle + (finalAngle - startAngle) * easedProgress;
+        const startAngle = currentAngle;
+        const currentSpinAngle = startAngle + (finalAngle - startAngle) * easedProgress;
 
-      ctx.save();
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.translate(canvas.width / 2, canvas.height / 2);
-      ctx.rotate(currentSpinAngle);
-      ctx.translate(-canvas.width / 2, -canvas.height / 2);
-      drawWheel();
-      ctx.restore();
+        drawWheel(currentSpinAngle);
 
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      } else {
-        isSpinning = false;
-        currentAngle = finalAngle % (Math.PI * 2);
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            isSpinning = false;
+            currentAngle = finalAngle % (Math.PI * 2);
+            drawWheel(currentAngle);
 
-        ctx.save();
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.translate(canvas.width / 2, canvas.height / 2);
-        ctx.rotate(currentAngle);
-        ctx.translate(-canvas.width / 2, -canvas.height / 2);
-        drawWheel();
-        ctx.restore();
+            if (isGameOver) return;
 
-        if (isGameOver) return;
-
-        if (currentWheelType === 'main') {
-            if (result === "奖励盘") {
-                log("🎉 主轮盘结果：奖励盘！准备旋转奖励轮盘...");
-                currentWheelType = 'reward';
-                currentSectors = rewards.filter(r => !usedRewards.has(r));
-                if (currentSectors.length === 0) {
-                    log("🚫 所有奖励已用完！跳过奖励轮盘。");
-                    resultEl.innerText = "所有奖励已用完！";
+            if (currentWheelType === 'reward') {
+                if ((result.includes("排尿3秒") && pee3secUsed) || 
+                    (result.includes("白神赦免") && usedRewards.has("白神赦免惩罚 (仅1次)"))) {
+                    log(`🚫 奖励 "${result}" 已使用过或条件不符，重新选择...`);
+                    resultEl.innerText = `🎁 奖励 "${result}" 已使用过，无效果。`;
+                    skipButton.style.display = 'inline-block';
+                    intervalTime = 15 * 60;
                     startTimer();
-                } else {
-                    drawWheel();
-                    setTimeout(() => spinWheel(), 1000);
+                    return;
                 }
-            } else {
-                log("😈 主轮盘结果：惩罚盘！准备旋转惩罚轮盘...");
-                currentWheelType = 'punishment';
-                currentSectors = [...punishments];
-                drawWheel();
-                setTimeout(() => spinWheel(), 1000);
+
+                usedRewards.add(result);
+                let detailedLog = `🎁 奖励：`;
+                let detailedResult = `🎁 奖励：`;
+
+                if (result.includes("排尿3秒")) {
+                    const fullDesc = "排尿3秒（仅一次机会）";
+                    detailedLog += fullDesc;
+                    detailedResult += fullDesc;
+                    log(detailedLog);
+                    log("💧 请自觉执行。")
+                    pee3secUsed = true;
+                } else if (result.includes("排尿5秒")) {
+                    const fullDesc = "排尿5秒（使用后，游戏总轮数+2，强制喝水300ml）";
+                    detailedLog += fullDesc;
+                    detailedResult += fullDesc;
+                    log(detailedLog);
+                    log("💧 请自觉执行。");
+                    totalRounds += 2;
+                    updateRoundDisplay();
+                    log(`🔄 游戏总轮数增加到 ${totalRounds}`);
+                    waterTotal += 300;
+                    log(`💧 请立即额外喝水 300ml (当前总量: ${waterTotal}ml)`);
+                } else if (result.includes("躺下休息")) {
+                    const fullDesc = "躺下休息5分钟（保持憋尿状态，不得弯腰）";
+                    detailedLog += fullDesc;
+                    detailedResult += fullDesc;
+                    log(detailedLog);
+                    log("🧘 请自觉执行。");
+                } else if (result.includes("摘除控尿夹")) {
+                    const fullDesc = "摘除控尿夹5分钟（如有佩戴）";
+                    detailedLog += fullDesc;
+                    detailedResult += fullDesc;
+                    log(detailedLog);
+                    log("🔓 请自觉执行。");
+                } else if (result.includes("游戏轮数-1")) {
+                    const fullDesc = "游戏次数-1";
+                    detailedLog += fullDesc;
+                    detailedResult += fullDesc;
+                    log(detailedLog);
+                    totalRounds = Math.max(1, totalRounds - 1);
+                    updateRoundDisplay();
+                    log(`🔄 游戏总轮数减少到 ${totalRounds}`);
+                    if (currentRound >= totalRounds) {
+                         log("🎉 由于奖励效果，你已完成所有轮次！");
+                         handleVictory();
+                         return;
+                     }
+                } else if (result.includes("跳过下次喝水")) {
+                    const fullDesc = "喝水轮可跳一次";
+                    detailedLog += fullDesc;
+                    detailedResult += fullDesc;
+                    log(detailedLog);
+                    log("🚫 下一轮开始时将自动跳过喝水。")
+                    canSkipNextDrink = true;
+                } else if (result.includes("闭眼冥想")) {
+                    const fullDesc = "闭眼专注冥想3分钟，降低尿意";
+                    detailedLog += fullDesc;
+                    detailedResult += fullDesc;
+                    log(detailedLog);
+                    log("🧘 请自觉执行。");
+                } else if (result.includes("更换下次惩罚")) {
+                    const fullDesc = "可自行更换下一轮惩罚内容";
+                    detailedLog += fullDesc;
+                    detailedResult += fullDesc;
+                    log(detailedLog);
+                    log("⏭️ 如果下一轮触发惩罚，将自动替换为奖励轮盘。")
+                    canReplaceNextPunishment = true;
+                } else if (result.includes("蒙眼暂停")) {
+                    const fullDesc = "蒙眼暂停5分钟（禁闭状态，缓冲过激）";
+                    detailedLog += fullDesc;
+                    detailedResult += fullDesc;
+                    log(detailedLog);
+                    log("🙈 请自觉执行。");
+                } else if (result.includes("白神赦免")) {
+                    const fullDesc = "白神特赐：戴项圈跪着，主人一句话取消一次惩罚（仅一次）";
+                    detailedLog += fullDesc;
+                    detailedResult += fullDesc;
+                    log(detailedLog);
+                    log("👑 下一次触发惩罚时，可选择使用此赦免权。")
+                    hasAmnesty = true;
+                }
+                
+                resultEl.innerText = detailedResult;
+
+            } else if (currentWheelType === 'punishment') {
+                const basePunishment = result;
+                punishCounter[basePunishment] = (punishCounter[basePunishment] || 0) + 1;
+                let level = Math.min(punishCounter[basePunishment], 3);
+                let detailedLog = `💀 惩罚 Lv${level}：`;
+                let detailedResult = `💀 惩罚 Lv${level}：`;
+                let executeLog = "➡️ 请立即执行惩罚：";
+                let waterToAdd = 0;
+                skipNextReward = false; 
+
+                if (hasAmnesty) {
+                    if (confirm("你持有【白神赦免】权，是否使用它来取消本次惩罚？")) {
+                        log("👑 使用【白神赦免】，本次惩罚被取消！");
+                        resultEl.innerText = "👑 惩罚已赦免！";
+                        hasAmnesty = false; 
+                        punishCounter[basePunishment]--; 
+                        skipButton.style.display = 'inline-block';
+                        intervalTime = 15 * 60;
+                        startTimer();
+                        return; 
+                    } else {
+                        log("⚠️ 你选择不使用【白神赦免】权。")
+                    }
+                }
+
+                let fullPunishmentDesc = "";
+                switch (basePunishment) {
+                    case "高抬腿":
+                        const count = level === 1 ? 100 : level === 2 ? 200 : 300;
+                        fullPunishmentDesc = `高抬腿${count}次`;
+                        executeLog += fullPunishmentDesc;
+                        break;
+                    case "裸腹撑墙":
+                        const durationWall = level === 1 ? 90 : 120;
+                        fullPunishmentDesc = `裸腹倒立式撑墙保持${durationWall}秒`;
+                        executeLog += fullPunishmentDesc;
+                        break;
+                    case "控尿夹Max+喝水200":
+                        fullPunishmentDesc = "控尿夹调至Max压制+喝水200ml";
+                        executeLog += "控尿夹调至Max压制，并喝水200ml";
+                        waterToAdd = 200;
+                        break;
+                    case "裸跪哼叫":
+                        const durationKneel = level === 1 ? 2 : 3;
+                        const extra = level >= 2 ? "＋咬牙棒羞辱" : "";
+                        fullPunishmentDesc = `裸跪＋哼叫"我不能尿！"持续${durationKneel}分钟${extra}`;
+                        executeLog += `裸跪，哼叫"我不能尿！"持续${durationKneel}分钟${extra}`; 
+                        break;
+                    case "狗爬姿势+刺激":
+                        fullPunishmentDesc = "狗爬姿势＋电击/冰块冷敷交叉刺激5分钟";
+                        executeLog += "保持狗爬姿势，进行电击/冰块冷敷交叉刺激5分钟";
+                        break;
+                    case "站墙角裸露+录音":
+                         const durationCorner = 3;
+                         const extraCorner = level >= 2 ? "（门锁）" : "";
+                         const recording = level >= 2 ? "旁放录音\"憋着！\"" : "";
+                         fullPunishmentDesc = `站墙角脚打开 + 下体裸露${extraCorner} ${recording} ${durationCorner}分钟`;
+                         executeLog += `站墙角，双脚打开，下体裸露${extraCorner}。${recording ? "播放录音\"憋着！\"" : ""} 持续${durationCorner}分钟`;
+                         break;
+                    case "镜前羞辱+自扇":
+                         fullPunishmentDesc = "镜前念出羞耻的话，如'我是憋尿狗'并自扇耳光左右各5下";
+                         executeLog += "站到镜子前，大声念出指定羞辱语，并左右各扇耳光5下";
+                         break;
+                    case "抱膀胱甩腿+提拉":
+                         fullPunishmentDesc = "抱膀胱姿势原地原地甩腿＋提拉裤子前裆持续60秒";
+                         executeLog += "抱紧膀胱，原地甩腿，同时不断提拉裤子前裆，持续60秒";
+                         break;
+                    case "冷水泼裤+剥夺奖励":
+                         fullPunishmentDesc = "冷水泼前裤（制造失禁错觉刺激）＋剥夺下轮奖励资格";
+                         executeLog += "向前裤泼冷水，并剥夺下一轮获得奖励的机会";
+                         skipNextReward = true;
+                         break;
+                     case "绑绳下体+跳跃":
+                         fullPunishmentDesc = "强制绑绳下体+跳跃20次（贴尿感区）— 憋尿快感刺激临界";
+                         executeLog += "用绳子绑住下体（紧贴尿感区），然后跳跃20次";
+                         break;
+                }
+                
+                detailedLog += fullPunishmentDesc;
+                detailedResult += fullPunishmentDesc;
+
+                log(detailedLog);
+                resultEl.innerText = detailedResult;
+                log(executeLog);
+
+                if (waterToAdd > 0) {
+                     waterTotal += waterToAdd;
+                     log(`💧 请立即额外喝水 ${waterToAdd}ml (当前总量: ${waterTotal}ml)`);
+                }
+                if (skipNextReward) {
+                    log("🚫 注意：下一轮如果抽中奖励轮盘，奖励将被跳过！");
+                }
             }
-        } else if (currentWheelType === 'reward') {
-            log(`🎁 奖励结果：${result}`);
-            resultEl.innerText = `🎁 奖励：${result}`;
-            usedRewards.add(result);
 
-            let skipDrinkNext = false;
-            let skipPunishmentNext = false;
-            let hasAmnesty = false;
-
-            if (result === "排尿3秒") {
-                 log("💧 执行奖励：允许排尿3秒。请自觉执行。");
-            } else if (result === "排尿5秒") {
-                 log("💧 执行奖励：允许排尿5秒。请自觉执行。");
-                 log("⚠️ 后果：游戏总轮数 +2");
-                 log("💧 后果：额外喝水 300ml");
-                 totalRounds += 2;
-                 updateRoundDisplay();
-                 waterTotal += 300;
-                 log(`💧 请立即额外喝水 300ml (当前总量: ${waterTotal}ml)`);
-                 resultEl.innerText = `🎁 奖励：${result}。轮数+2，请喝水300ml！`;
-            } else if (result === "躺下休息5分钟") {
-                 log("🧘 执行奖励：躺下休息5分钟（保持憋尿）。");
-            } else if (result === "摘除控尿夹5分钟") {
-                 log("🔓 执行奖励：如果佩戴，摘除控尿夹5分钟。");
-            } else if (result === "游戏次数-1") {
-                 log("➖ 执行奖励：游戏总轮数 -1");
-                 totalRounds = Math.max(1, totalRounds - 1);
-                 updateRoundDisplay();
-                 
-                 // 检查是否已经完成所有轮次
-                 if (currentRound >= totalRounds) {
-                     log("🎉 由于奖励效果，你已完成所有轮次！");
-                     handleVictory();
-                     return;
-                 }
-            } else if (result === "喝水轮可跳一次") {
-                 log("🚫 执行奖励：下一轮无需喝水。");
-                 log("(请注意：下一轮开始时无需执行喝水操作)");
-            } else if (result === "闭眼专注冥想3分钟") {
-                 log("🧘 执行奖励：闭眼冥想3分钟，降低尿意。");
-            } else if (result === "可自行更换下一轮惩罚内容") {
-                 log("⏭️ 执行奖励：如果下一轮抽中惩罚盘，将跳过惩罚轮盘旋转。");
-                 log("(如果下次主轮盘抽中惩罚，惩罚将被跳过)");
-            } else if (result === "蒙眼暂停5分钟") {
-                 log("🙈 执行奖励：蒙眼暂停5分钟。");
-            } else if (result.includes("主人赦免")) {
-                 log("👑 执行奖励：白神特赐！本次惩罚（如果接下来抽中）可被赦免一次。（需主人确认）");
-                 log("(如果下次主轮盘抽中惩罚，可选择使用赦免)");
-            }
-
-            // 轮盘结束，显示跳过按钮并启动计时器
             skipButton.style.display = 'inline-block';
             intervalTime = 15 * 60;
             startTimer();
-
-        } else if (currentWheelType === 'punishment') {
-            log(`💀 惩罚结果：${finalPunishText}`);
-            resultEl.innerText = `💀 惩罚：${finalPunishText}`;
-
-            if (finalPunishText.includes("喝水200ml")) {
-                 waterTotal += 200;
-                 log(`💧 请立即额外喝水 200ml (当前总量: ${waterTotal}ml)`);
-             }
-             let skipNextReward = false;
-              if (finalPunishText.includes("剥夺下轮奖励")) {
-                 log("🚫 注意：下一次抽中奖励盘时，奖励将被跳过！");
-              }
-
-             log(`➡️ 请立即执行惩罚：${finalPunishText}`);
-
-            // 轮盘结束，显示跳过按钮并启动计时器
-            skipButton.style.display = 'inline-block';
-            intervalTime = 15 * 60;
-            startTimer();
-
-            if (finalPunishText.includes("游戏次数+1")) {
-                 log("➕ 执行惩罚：游戏总轮数 +1");
-                 totalRounds += 1;
-                 updateRoundDisplay();
-            }
         }
-      }
     }
     requestAnimationFrame(animate);
   }
@@ -851,7 +1205,14 @@
   }
 
   function resetAll() {
+    if (!confirm("您确定要重新开始游戏吗？所有进度将被清空。")) {
+        return;
+    }
+
     clearInterval(roundTimer);
+    roundTimer = null;
+    startTime = null;
+    targetEndTime = null;
     phase = "prepare";
     currentRound = 0;
     totalRounds = 5;
@@ -864,6 +1225,11 @@
     peeActionUsed = false;
     isGameOver = false;
     intervalTime = 90 * 60;
+    canSkipNextDrink = false;
+    canReplaceNextPunishment = false;
+    hasAmnesty = false;
+    skipNextReward = false;
+    pee3secUsed = false;
 
     resultEl.innerText = "请完成准备，然后开始挑战...";
     phaseEl.textContent = "准备中";
@@ -871,7 +1237,11 @@
     countdownEl.textContent = "90:00";
 
     document.querySelector('.wheel-container').style.display = 'none';
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (canvas && ctx) {
+        const container = document.querySelector('.wheel-container');
+        const size = container.clientWidth;
+        ctx.clearRect(0, 0, size * dpr, size * dpr);
+    }
 
     startButton.style.display = 'inline-block';
     skipButton.style.display = 'none';
@@ -883,12 +1253,9 @@
     document.getElementById('resetButton').style.display = 'none';
 
     removeConfetti();
+    closePunishmentDisplay();
 
     logEl.textContent = "游戏已重置。点击 \"开始挑战\" 以开始90分钟准备时间。";
-    
-    // 确保计时器被清除并重置
-    clearInterval(roundTimer);
-    roundTimer = null;
   }
 
   function startGame() {
@@ -909,7 +1276,6 @@
     failButton.disabled = true;
     document.getElementById('resetButton').style.display = 'inline-block';
     
-    // 设置90分钟倒计时
     intervalTime = 90 * 60;
     startTimer();
   }
@@ -926,7 +1292,6 @@
     log(`💧 第 ${currentRound + 1} 轮：强制喝水 ${waterPerRound}ml (当前总量: ${waterTotal}ml)`);
     resultEl.innerText = `已喝水 ${waterPerRound}ml。准备开始下一轮...`;
 
-    // 调用 nextRound 函数来执行轮盘抽奖
     nextRound();
   }
 
@@ -954,14 +1319,14 @@
 
   function throwFailureItems() {
     const animationContainer = document.getElementById('failureAnimation');
-    animationContainer.innerHTML = ''; // 清除之前的动画
+    animationContainer.innerHTML = '';
     
     const items = [
         { type: 'sock', emoji: '🧦' },
         { type: 'trash', emoji: '💩' },
         { type: 'rotten-food', emoji: '🤢' }
     ];
-    const throwCount = 5; // 每个物品扔5次
+    const throwCount = 5;
     
     items.forEach(item => {
         for (let i = 0; i < throwCount; i++) {
@@ -970,11 +1335,9 @@
                 itemElement.className = `thrown-item ${item.type}`;
                 itemElement.textContent = item.emoji;
                 
-                // 随机起始位置（从屏幕上方）
                 const startX = Math.random() * window.innerWidth;
                 const startY = -50;
                 
-                // 随机结束位置（屏幕中央区域）
                 const endX = (Math.random() - 0.5) * 200;
                 const endY = window.innerHeight / 2 + (Math.random() - 0.5) * 100;
                 
@@ -985,11 +1348,10 @@
                 
                 animationContainer.appendChild(itemElement);
                 
-                // 动画结束后移除元素
                 setTimeout(() => {
                     itemElement.remove();
                 }, 2000);
-            }, i * 300); // 每个物品间隔300ms
+            }, i * 300);
         }
     });
   }
@@ -997,14 +1359,6 @@
   function showPunishmentDisplay() {
     const display = document.getElementById('punishmentDisplay');
     display.style.display = 'block';
-    // 移除点击遮罩层关闭功能
-    /*
-    display.onclick = function(e) {
-      if (e.target === display) {
-        closePunishmentDisplay();
-      }
-    };
-    */
   }
 
   function closePunishmentDisplay() {
@@ -1015,11 +1369,9 @@
     console.log("handleFailure called. isGameOver:", isGameOver, "phase:", phase);
     if (isGameOver || phase !== 'challenge') return;
 
-    if (confirm("你确定要宣告失禁失败吗？这将立即结束游戏并触发羞耻惩罚。")) {
-        // 先触发失败动画
+    if (confirm("你确定要宣告失禁失败吗？这将立即结束游戏并触发羞耻垮台惩罚。")) {
         throwFailureItems();
         
-        // 延迟执行后续操作，让动画有时间播放
         setTimeout(() => {
             log("🏳️⚠️ 你宣告失败（失禁）！准备接受羞耻垮台惩罚... ⚠️🏳️");
             resultEl.innerText = "😖 挑战失败...";
@@ -1035,7 +1387,6 @@
             actionButtonsDiv.style.display = 'none';
             removeConfetti();
 
-            // 显示惩罚内容
             showPunishmentDisplay();
 
             log("------- 失禁惩罚流程开始 -------");
@@ -1045,7 +1396,7 @@
             log("➡️ 惩罚4: 喝下最后 300ml 水。");
             log("➡️ 惩罚5: 戴上控尿夹（如有）或使用压环，持续30分钟。这是你失败的烙印。");
             log("------- 失禁惩罚流程结束 -------");
-        }, 2000); // 延迟2秒执行后续操作
+        }, 2000);
     } else {
         log("取消宣告失败。");
     }
@@ -1075,20 +1426,16 @@
     }
   }
 
-  // 添加免责声明相关函数
   function acceptDisclaimer() {
     document.getElementById('disclaimerModal').style.display = 'none';
-    // 如果需要记住用户的选择，可以保留这行
     localStorage.setItem('disclaimerAccepted', 'true');
     
-    // 可以在这里添加初始化游戏的代码
     updateRoundDisplay();
     document.querySelector('.wheel-container').style.display = 'none';
     actionButtonsDiv.style.display = 'none';
     log("游戏已加载。请阅读规则，准备好后点击\"开始挑战\"。");
   }
 
-  // 将初始化代码移到函数中
   function initializeGame() {
     updateRoundDisplay();
     document.querySelector('.wheel-container').style.display = 'none';
@@ -1096,9 +1443,7 @@
     log("游戏已加载。请阅读规则，准备好后点击\"开始挑战\"。");
   }
 
-  // 如果需要在页面加载完成后检查是否显示免责声明
   document.addEventListener('DOMContentLoaded', function() {
-    // 如果需要记住用户的选择，可以取消注释下面的代码
     // if (localStorage.getItem('disclaimerAccepted')) {
     //     document.getElementById('disclaimerModal').style.display = 'none';
     //     initializeGame();
@@ -1109,6 +1454,14 @@
   document.querySelector('.wheel-container').style.display = 'none';
   actionButtonsDiv.style.display = 'none';
   log("游戏已加载。请阅读规则，准备好后点击\"开始挑战\"。");
+
+  function showGameProcess() {
+    document.getElementById('processModal').style.display = 'flex';
+  }
+  
+  function closeGameProcess() {
+    document.getElementById('processModal').style.display = 'none';
+  }
 </script>
 </body>
 </html>
