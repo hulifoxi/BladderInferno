@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>膀胱炼狱 - 转盘版</title>
   <style>
     body {
@@ -450,6 +451,83 @@
       max-width: 400px;
       text-align: left;
       line-height: 1.5;
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+        margin: 0.5rem;
+        max-width: 100%;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      .timer, .phase {
+        font-size: 1rem;
+      }
+      .log {
+        height: 150px;
+        font-size: 0.8rem;
+      }
+      button {
+        padding: 10px 18px;
+        font-size: 0.9rem;
+        margin: 0.3rem;
+      }
+      .wheel-container {
+        width: 90vw;
+        height: 90vw;
+        max-width: 400px;
+        max-height: 400px;
+        margin: 2rem auto 1rem auto;
+      }
+      .pointer {
+        border-left: 15px solid transparent;
+        border-right: 15px solid transparent;
+        border-top: 25px solid #1e90ff;
+        top: -5px;
+      }
+      .result-box {
+        font-size: 1rem;
+        padding: 0.8rem;
+        min-height: 50px;
+      }
+      .center-btn button, .action-buttons button {
+          width: calc(100% - 1rem);
+          margin: 0.5rem;
+      }
+      .action-buttons {
+        padding: 0.5rem;
+      }
+      .punishment-display, .disclaimer-content, .process-content {
+        width: 95%;
+        padding: 1rem;
+      }
+      .punishment-title, .disclaimer-title, .process-title {
+        font-size: 1.2rem;
+      }
+      .punishment-item, .disclaimer-text, .process-section p, .process-section h3 {
+        font-size: 0.9rem;
+      }
+      .help-button {
+          bottom: 10px;
+          right: 10px;
+          padding: 10px 20px;
+          font-size: 14px;
+          border-radius: 20px;
+      }
+      #resetButton {
+          top: 10px;
+          right: 10px;
+          padding: 6px 12px;
+          font-size: 12px;
+      }
+      .tooltip {
+          max-width: 80vw;
+          font-size: 0.8rem;
+          padding: 8px 12px;
+      }
     }
   </style>
 </head>
