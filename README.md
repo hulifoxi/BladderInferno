@@ -1,6 +1,6 @@
 # 膀胱炼狱 · 极限尿压 - 转盘版 🎰
 
-这是一个基于 HTML、CSS 和 JavaScript 构建的单文件网页游戏，灵感来源于特定的膀胱控制挑战。玩家通过旋转一个充满随机奖励与惩罚的轮盘，在不断累积的尿意压力下，测试并挑战自己的生理和心理极限。
+这是一个基于 HTML、CSS 和 JavaScript 的单文件网页游戏，灵感来源于x上的各种憋尿挑战。玩家通过旋转一个充满随机奖励与惩罚的轮盘，在不断累积的尿意压力下，测试并挑战自己的生理和心理极限。
 
 ---
 
@@ -46,15 +46,14 @@
 
 ## 🚀 如何开始
 
-1.  **克隆仓库或下载文件:**
+1.  **克隆仓库:**
     ```bash
-    git clone https://github.com/你的用户名/你的仓库名.git
-    cd 你的仓库名
+    git clone https://github.com/hulifoxi/BladderInferno.git
     ```
-    或者直接下载 `new.html` 文件。
+    或者直接下载 `index.html` 文件。
 
 2.  **打开文件:**
-    使用现代的网页浏览器（如 Chrome, Firefox, Edge）打开 `new.html` 文件即可开始游戏。无需任何服务器或额外依赖。
+    使用现代的网页浏览器（如 Chrome, Firefox, Edge）打开 `index.html` 文件即可开始游戏。无需任何服务器或额外依赖。
 
 ---
 
@@ -71,16 +70,16 @@
 欢迎提出 Issue 或 Pull Request 来改进这个项目！
 
 1.  Fork 本仓库
-2.  创建你的特性分支 (`git checkout -b feature/AmazingFeature`)
-3.  提交你的更改 (`git commit -m 'Add some AmazingFeature'`)
-4.  推送到分支 (`git push origin feature/AmazingFeature`)
+2.  创建你的分支
+3.  提交你的更改
+4.  Push到分支
 5.  打开一个 Pull Request
 
 ---
 
 ## 📜 许可证
 
-本项目采用 [MIT 许可证](LICENSE.txt) 授权。
+本项目采用 GPL-3.0 license 授权
 
 ---
 
