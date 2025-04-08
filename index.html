@@ -1078,17 +1078,32 @@
   // 添加免责声明相关函数
   function acceptDisclaimer() {
     document.getElementById('disclaimerModal').style.display = 'none';
-    // 可选：将接受状态存储在localStorage中
+    // 如果需要记住用户的选择，可以保留这行
     localStorage.setItem('disclaimerAccepted', 'true');
+    
+    // 可以在这里添加初始化游戏的代码
+    updateRoundDisplay();
+    document.querySelector('.wheel-container').style.display = 'none';
+    actionButtonsDiv.style.display = 'none';
+    log("游戏已加载。请阅读规则，准备好后点击\"开始挑战\"。");
   }
-  
-  // 页面加载时检查是否需要显示免责声明
-  window.onload = function() {
-    // 可选：如果要每次都显示，删除这个条件判断
-    // if (!localStorage.getItem('disclaimerAccepted')) {
-      document.getElementById('disclaimerModal').style.display = 'flex';
+
+  // 将初始化代码移到函数中
+  function initializeGame() {
+    updateRoundDisplay();
+    document.querySelector('.wheel-container').style.display = 'none';
+    actionButtonsDiv.style.display = 'none';
+    log("游戏已加载。请阅读规则，准备好后点击\"开始挑战\"。");
+  }
+
+  // 如果需要在页面加载完成后检查是否显示免责声明
+  document.addEventListener('DOMContentLoaded', function() {
+    // 如果需要记住用户的选择，可以取消注释下面的代码
+    // if (localStorage.getItem('disclaimerAccepted')) {
+    //     document.getElementById('disclaimerModal').style.display = 'none';
+    //     initializeGame();
     // }
-  };
+  });
 
   updateRoundDisplay();
   document.querySelector('.wheel-container').style.display = 'none';
