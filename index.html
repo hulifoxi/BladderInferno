@@ -218,6 +218,20 @@
         z-index: 1000;
     }
     
+    @keyframes throwItem {
+        0% {
+            transform: translate(0, 0) rotate(0deg);
+            opacity: 0;
+        }
+        20% {
+            opacity: 1;
+        }
+        100% {
+            transform: translate(var(--endX), var(--endY)) rotate(360deg);
+            opacity: 0;
+        }
+    }
+    
     .thrown-item {
         position: absolute;
         width: 50px;
@@ -419,6 +433,24 @@
     #resetButton:hover {
       background: linear-gradient(145deg, #5a6268, #4e555b);
     }
+
+    .tooltip {
+      position: fixed;
+      background-color: rgba(0, 0, 0, 0.85);
+      color: #eee;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      z-index: 1001;
+      display: none;
+      white-space: normal;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      pointer-events: none;
+      max-width: 400px;
+      text-align: left;
+      line-height: 1.5;
+    }
   </style>
 </head>
 <body>
@@ -452,6 +484,7 @@
     <div class="center-btn">
       <button id="startButton" onclick="startGame()">▶️ 开始挑战</button>
       <button id="skipButton" onclick="skipTimer()" style="display: none;">⏩ 跳过等待</button>
+      <div id="skipButtonTooltip" class="tooltip">跳过等待不是游戏流程的一部分，仅用于错误排查。如果您在正常游玩游戏，请不要跳过等待时间。</div>
       <div class="action-buttons">
           <button id="peeButton" onclick="handlePeeAction()" disabled>💧 主动排尿5秒 (仅一次, 后果严重)</button>
           <button id="failButton" onclick="handleFailure()" disabled>🏳️ 宣告失败 (失禁)</button>
@@ -1372,31 +1405,29 @@
     if (confirm("你确定要宣告失禁失败吗？这将立即结束游戏并触发羞耻垮台惩罚。")) {
         throwFailureItems();
         
-        setTimeout(() => {
-            log("🏳️⚠️ 你宣告失败（失禁）！准备接受羞耻垮台惩罚... ⚠️🏳️");
-            resultEl.innerText = "😖 挑战失败...";
-            phase = "finished";
-            isGameOver = true;
-            phaseEl.textContent = "失败 ❌";
-            clearInterval(roundTimer);
-            updateCountdown();
-            document.querySelector('.wheel-container').style.display = 'none';
-            skipButton.style.display = 'none';
-            peeButton.style.display = 'none';
-            failButton.style.display = 'none';
-            actionButtonsDiv.style.display = 'none';
-            removeConfetti();
+        log("🏳️⚠️ 你宣告失败（失禁）！准备接受羞耻垮台惩罚... ⚠️🏳️");
+        resultEl.innerText = "😖 挑战失败...";
+        phase = "finished";
+        isGameOver = true;
+        phaseEl.textContent = "失败 ❌";
+        clearInterval(roundTimer);
+        updateCountdown();
+        document.querySelector('.wheel-container').style.display = 'none';
+        skipButton.style.display = 'none';
+        peeButton.style.display = 'none';
+        failButton.style.display = 'none';
+        actionButtonsDiv.style.display = 'none';
+        removeConfetti();
 
-            showPunishmentDisplay();
+        showPunishmentDisplay();
 
-            log("------- 失禁惩罚流程开始 -------");
-            log("➡️ 惩罚1: 全裸或半裸，固定姿势（建议狗爬）持续10分钟。");
-            log("➡️ 惩罚2: 站到镜子前，大声念出羞耻悔过书5次。（例如：\"我控制不住我的膀胱，我像狗一样失禁了，我不配做人类...\"");
-            log("➡️ 惩罚3: 拍下裤子和地面的尿渍照片，作为耻辱纪念。");
-            log("➡️ 惩罚4: 喝下最后 300ml 水。");
-            log("➡️ 惩罚5: 戴上控尿夹（如有）或使用压环，持续30分钟。这是你失败的烙印。");
-            log("------- 失禁惩罚流程结束 -------");
-        }, 2000);
+        log("------- 失禁惩罚流程开始 -------");
+        log("➡️ 惩罚1: 全裸或半裸，固定姿势（建议狗爬）持续10分钟。");
+        log("➡️ 惩罚2: 站到镜子前，大声念出羞耻悔过书5次。（例如：\"我控制不住我的膀胱，我像狗一样失禁了，我不配做人类...\"");
+        log("➡️ 惩罚3: 拍下裤子和地面的尿渍照片，作为耻辱纪念。");
+        log("➡️ 惩罚4: 喝下最后 300ml 水。");
+        log("➡️ 惩罚5: 戴上控尿夹（如有）或使用压环，持续30分钟。这是你失败的烙印。");
+        log("------- 失禁惩罚流程结束 -------");
     } else {
         log("取消宣告失败。");
     }
@@ -1441,13 +1472,49 @@
     document.querySelector('.wheel-container').style.display = 'none';
     actionButtonsDiv.style.display = 'none';
     log("游戏已加载。请阅读规则，准备好后点击\"开始挑战\"。");
+
+    const skipBtn = document.getElementById('skipButton');
+    const skipTooltip = document.getElementById('skipButtonTooltip');
+
+    skipBtn.addEventListener('mousemove', (e) => {
+      const tooltipWidth = skipTooltip.offsetWidth;
+      const tooltipHeight = skipTooltip.offsetHeight;
+      const x = e.clientX;
+      const y = e.clientY;
+      
+      // 计算提示框位置，确保不会超出屏幕
+      let left = x + 10;
+      let top = y + 10;
+      
+      // 如果提示框会超出屏幕右侧，则显示在鼠标左侧
+      if (left + tooltipWidth > window.innerWidth) {
+        left = x - tooltipWidth - 10;
+      }
+      
+      // 如果提示框会超出屏幕底部，则显示在鼠标上方
+      if (top + tooltipHeight > window.innerHeight) {
+        top = y - tooltipHeight - 10;
+      }
+      
+      skipTooltip.style.left = `${left}px`;
+      skipTooltip.style.top = `${top}px`;
+      skipTooltip.style.display = 'block';
+    });
+
+    skipBtn.addEventListener('mouseout', () => {
+      skipTooltip.style.display = 'none';
+    });
   }
 
   document.addEventListener('DOMContentLoaded', function() {
-    // if (localStorage.getItem('disclaimerAccepted')) {
-    //     document.getElementById('disclaimerModal').style.display = 'none';
-    //     initializeGame();
-    // }
+    if (localStorage.getItem('disclaimerAccepted')) {
+        document.getElementById('disclaimerModal').style.display = 'none';
+        initializeGame();
+    } else {
+        // If disclaimer not accepted, add listeners after acceptance
+        const acceptButton = document.querySelector('.disclaimer-button');
+        acceptButton.addEventListener('click', initializeGame, { once: true });
+    }
   });
 
   updateRoundDisplay();
