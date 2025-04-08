@@ -223,20 +223,6 @@
         animation: throwItem 2s forwards;
     }
     
-    @keyframes throwItem {
-        0% {
-            transform: translate(0, 0) rotate(0deg);
-            opacity: 0;
-        }
-        20% {
-            opacity: 1;
-        }
-        100% {
-            transform: translate(var(--endX), var(--endY)) rotate(720deg);
-            opacity: 1;
-        }
-    }
-    
     .sock {
         content: "🧦";
     }
@@ -248,9 +234,100 @@
     .rotten-food {
         content: "🤢";
     }
+    
+    /* 免责声明模态框样式 */
+    .disclaimer-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .disclaimer-content {
+      background: #1a1a1a;
+      padding: 2rem;
+      border-radius: 15px;
+      border: 2px solid #ff0000;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
+      animation: pulse 2s infinite;
+    }
+    
+    .disclaimer-title {
+      color: #ff0000;
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    }
+    
+    .disclaimer-text {
+      color: #fff;
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    
+    .disclaimer-item {
+      margin: 10px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+    
+    .disclaimer-item:before {
+      content: "⚠️";
+      position: absolute;
+      left: -5px;
+    }
+    
+    .disclaimer-button {
+      background: linear-gradient(145deg, #ff0000, #cc0000);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      font-size: 18px;
+      transition: all 0.3s ease;
+    }
+    
+    .disclaimer-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(255, 0, 0, 0.3);
+    }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.3); }
+      50% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.6); }
+      100% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.3); }
+    }
   </style>
 </head>
 <body>
+  <!-- 在container div之前添加免责声明模态框 -->
+  <div class="disclaimer-modal" id="disclaimerModal">
+    <div class="disclaimer-content">
+      <div class="disclaimer-title">⚠️ 重要安全警告</div>
+      <div class="disclaimer-text">
+        <div class="disclaimer-item">年满18岁，身心健康，泌尿系统无明显问题。</div>
+        <div class="disclaimer-item">有紧急停止机制（安全词/按钮）</div>
+        <div class="disclaimer-item">处于私密安全环境，避免违法、伤害他人或自己行为。</div>
+        <div class="disclaimer-item">所有道具安全清洁并按说明使用。</div>
+        <div class="disclaimer-item" style="color: #ff6b6b; font-weight: bold;">请清晰认识到：使用本网站造成的任何生理和心理创伤与本网站作者和Github无关。</div>
+      </div>
+      <button class="disclaimer-button" onclick="acceptDisclaimer()">我已阅读并同意上述内容</button>
+    </div>
+  </div>
+  
   <div class="container">
     <h1>膀胱炼狱 · 极限尿压</h1>
     <div class="timer">⏳ 倒计时：<span id="countdown">90:00</span></div>
@@ -997,6 +1074,21 @@
         log("取消主动排尿。");
     }
   }
+
+  // 添加免责声明相关函数
+  function acceptDisclaimer() {
+    document.getElementById('disclaimerModal').style.display = 'none';
+    // 可选：将接受状态存储在localStorage中
+    localStorage.setItem('disclaimerAccepted', 'true');
+  }
+  
+  // 页面加载时检查是否需要显示免责声明
+  window.onload = function() {
+    // 可选：如果要每次都显示，删除这个条件判断
+    // if (!localStorage.getItem('disclaimerAccepted')) {
+      document.getElementById('disclaimerModal').style.display = 'flex';
+    // }
+  };
 
   updateRoundDisplay();
   document.querySelector('.wheel-container').style.display = 'none';
