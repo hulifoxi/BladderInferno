@@ -193,15 +193,29 @@ function maybeEvents(state: GameState): GameState {
   return next
 }
 
+function holdTimeMet(state: GameState): boolean {
+  if (state.holdStartedAt == null) return false
+  return state.holdElapsedSec >= holdTargetSec(state.difficulty, state.holdAdjustSec)
+}
+
 function maybeWin(state: GameState): GameState {
   if (state.screen !== "play") return state
-  if (occupied(state) || state.waveUntil != null) return state
-  if (state.holdStartedAt == null) return state
-  if (state.holdElapsedSec < holdTargetSec(state.difficulty, state.holdAdjustSec)) return state
+  if (!holdTimeMet(state)) return state
   if (DIFFICULTY_SPECS[state.difficulty].needRateDrop && state.urineRate > state.peakRate / 2) {
     return state
   }
-  return log({ ...state, screen: "won" }, "撑住了。去撒尿吧。")
+  return log(
+    {
+      ...state,
+      screen: "won",
+      pendingDrink: null,
+      wheel: null,
+      task: null,
+      peeUntilSec: null,
+      waveUntil: null,
+    },
+    "撑住了。去撒尿吧。",
+  )
 }
 
 function advance(state: GameState, now: number): GameState {
@@ -221,6 +235,9 @@ function advance(state: GameState, now: number): GameState {
 
   next = refresh(next)
   next = maybeHold(next)
+  next = maybeWin(next)
+  if (next.screen !== "play") return next
+  if (holdTimeMet(next)) return next
   next = maybeEvents(next)
   next = dequeue(next)
   return maybeWin(next)
@@ -314,7 +331,8 @@ export function reducer(state: GameState, action: Action): GameState {
       }
       next = log(next, `喝完 ${drink.ml} ml。`)
       next = refresh(next)
-      return maybeHold(next)
+      next = maybeHold(next)
+      return maybeWin(next)
     }
     case "SPIN":
       if (!state.wheel || state.wheel.spinning || state.wheel.landed) return state
@@ -326,15 +344,19 @@ export function reducer(state: GameState, action: Action): GameState {
     }
     case "USE_SKIP_TICKET": {
       if (!state.wheel || state.skipTickets <= 0 || state.wheel.reason === "gamble") return state
-      return dequeue(
-        log({ ...state, wheel: null, skipTickets: state.skipTickets - 1 }, "免转券用掉了。"),
-      )
+      let next = log({ ...state, wheel: null, skipTickets: state.skipTickets - 1 }, "免转券用掉了。")
+      next = maybeWin(next)
+      if (next.screen !== "play") return next
+      return dequeue(next)
     }
     case "USE_AMNESTY": {
       if (!state.wheel?.landed || !state.hasAmnesty || state.wheel.landed.kind !== "punish") {
         return state
       }
-      return dequeue(log({ ...state, wheel: null, hasAmnesty: false }, "免罚用掉了。这次不做。"))
+      let next = log({ ...state, wheel: null, hasAmnesty: false }, "免罚用掉了。这次不做。")
+      next = maybeWin(next)
+      if (next.screen !== "play") return next
+      return dequeue(next)
     }
     case "ACK_RESULT": {
       if (!state.wheel?.landed) return state
@@ -358,8 +380,9 @@ export function reducer(state: GameState, action: Action): GameState {
       next = log(next, card.kind === "reward" ? `奖励：${card.title}` : `惩罚：${card.title}`)
       next = refresh(next)
       next = maybeHold(next)
-      next = dequeue(next)
-      return maybeWin(next)
+      next = maybeWin(next)
+      if (next.screen !== "play") return next
+      return dequeue(next)
     }
     case "FINISH_TASK": {
       if (!state.task) return state
@@ -369,8 +392,9 @@ export function reducer(state: GameState, action: Action): GameState {
       next = log(next, card.kind === "reward" ? `奖励：${card.title}` : `惩罚：${card.title}`)
       next = refresh(next)
       next = maybeHold(next)
-      next = dequeue(next)
-      return maybeWin(next)
+      next = maybeWin(next)
+      if (next.screen !== "play") return next
+      return dequeue(next)
     }
     case "GAMBLE": {
       if (state.screen !== "play") return state

@@ -21,7 +21,7 @@ export function holdNeedSec(state: GameState): number {
 
 export function holdLeftSec(state: GameState): number {
   if (state.holdStartedAt == null) return holdNeedSec(state)
-  return Math.max(0, holdNeedSec(state) - state.holdElapsedSec)
+  return Math.max(0, Math.ceil(holdNeedSec(state) - state.holdElapsedSec))
 }
 
 export function nextDose(state: GameState) {
@@ -53,8 +53,12 @@ export function commandText(state: GameState): { title: string; body?: string } 
     }
   }
   if (state.holdStartedAt != null) {
+    const left = holdLeftSec(state)
+    if (left <= 0 && DIFFICULTY_SPECS[state.difficulty].needRateDrop) {
+      return { title: "等尿速下来", body: "时间够了，再等产尿降下来。" }
+    }
     return {
-      title: `还要 ${formatClock(holdLeftSec(state))}`,
+      title: `还要 ${formatClock(left)}`,
       body: state.waveUntil != null ? "顶过去。" : mustStand(state) ? "站着。" : undefined,
     }
   }
