@@ -31,4 +31,8 @@ npm run dev
 
 ## 技术
 
-Vite + React + TypeScript。规则在 `src/engine/`，界面只读状态、只发 action。
+Vite + React + TypeScript。规则在 `src/engine/`，界面只读状态、只发 action。给后续维护看 `AGENTS.md`。
+
+## 许可证
+
+GPL-3.0。见 `LICENSE`。

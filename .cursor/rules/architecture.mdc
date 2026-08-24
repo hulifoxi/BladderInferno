@@ -1,0 +1,13 @@
+---
+description: Keep game rules in src/engine and UI presentational
+alwaysApply: true
+---
+
+# Architecture
+
+This is a static Vite + React game deployed to GitHub Pages.
+
+- Change gameplay only in `src/engine/` (`physiology.ts`, `schedule.ts`, `reducer.ts`, `wheel.ts`, `copy.ts`).
+- React components dispatch existing actions and render `GameState`. Do not embed urine/hold/reward logic in JSX.
+- Add shadcn pieces with `npx shadcn@latest add`. Leave `src/components/ui/` as generated.
+- Keep the production build a static `dist/` (no server). Vite `base` is `./` so GitHub project Pages works.
